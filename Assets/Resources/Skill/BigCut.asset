@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f6a736f322ea64438dcb9b579eb4eaf, type: 3}
+  m_Name: BigCut
+  m_EditorClassIdentifier: 
+  skillName: TestSkill1
+  sectionAction:
+  - gesture: 1
+    sectionAnim: {fileID: 0}
+    sectionEffect:
+    - species: 10
+      value: 0
+      buffDuration: 0
+      attackerEffectObj: {fileID: 1920166053989176, guid: 7deea37414615bc42acbd4ab3ce4ae48,
+        type: 2}
+      targetEffectObj: {fileID: 0}
+      isAOE: 0
+  - gesture: 4
+    sectionAnim: {fileID: 0}
+    sectionEffect:
+    - species: 3
+      value: 3.3
+      buffDuration: 10
+      attackerEffectObj: {fileID: 1920166053989176, guid: 7deea37414615bc42acbd4ab3ce4ae48,
+        type: 2}
+      targetEffectObj: {fileID: 0}
+      isAOE: 0
+  coolDown: 5
+  weaponSpecies: 0
+  combo: 0
