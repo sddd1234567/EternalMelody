@@ -28,4 +28,4 @@
 
 ----------------------------------------------------------------------------------------------
 
-遊戲下載連結：https://drive.google.com/file/d/0B_9Gg6HSaBXEUVhLUEI3MlM1Snc/view?usp=sharing
+遊戲下載連結：https://github.com/sddd1234567/EternalMelody/releases/download/v1.1/Eternal.Melody.apk
