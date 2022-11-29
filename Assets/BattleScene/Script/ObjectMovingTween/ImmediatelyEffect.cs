@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ImmediatelyEffect : ObjectTween {
     // Use this for initialization
-
+    public Rigidbody2D rig;
     public bool isAtk;
     public List<GameObject> targets;
     public int attackCount;
@@ -19,8 +19,7 @@ public class ImmediatelyEffect : ObjectTween {
 	void Update () {
         if (attacker != null)
             transform.position = attacker.transform.position;
-        else
-            Debug.Log("233");
+        
     }
 
     public override void startMoving() {
@@ -28,7 +27,7 @@ public class ImmediatelyEffect : ObjectTween {
         {
             transform.position = attacker.transform.position;
             transform.localScale = attacker.transform.localScale;
-            GetComponent<BoxCollider2D>().offset = attacker.GetComponent<BoxCollider2D>().offset + Vector2.right * 2f;
+            GetComponent<BoxCollider2D>().offset = attacker.GetComponent<BoxCollider2D>().offset + Vector2.right * 1f;
             GetComponent<BoxCollider2D>().size = attacker.GetComponent<BoxCollider2D>().size;
         }
             
@@ -55,7 +54,7 @@ public class ImmediatelyEffect : ObjectTween {
             }
             attackCount++;
             targets.Add(col.gameObject);
-            BattleHandler.instance.castEffect(attacker, tg, sectionEffect);
+            BattleHandler.instance.castEffect(attacker, tg, sectionEffect);            
                 
         }      
     }
@@ -64,7 +63,7 @@ public class ImmediatelyEffect : ObjectTween {
         yield return new WaitForSeconds(0.15f);
         if (!isAtk)
             Debug.Log("wtf?");
-        Debug.Log(attackCount);
+        //Debug.Log(attackCount);
         Destroy(gameObject);
     }
 }

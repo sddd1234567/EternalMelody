@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAI : MonoBehaviour {
+public class PlayerState : MonoBehaviour {
     public PlayerBattling playerBattling;
 
     public List<GameObject> attachEnemy;
 
-    public int nowState;    // 0 = walk  1 = readyToAttack  2 = attacking    3 = cant control  4 = rushing
+    public int nowState;    // 0 = walk  1 = readyToAttack  2 = attacking    3 = cant control
 
     public bool canAttack;
 
@@ -29,9 +29,8 @@ public class PlayerAI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (nowState != 2)
+      /*  if (nowState != 2)
         {
-            attackStateJudge();
             if (lastState != nowState)
             {
                 Debug.Log("changeState");
@@ -39,10 +38,10 @@ public class PlayerAI : MonoBehaviour {
                 lastState = nowState;
             }
               
-        }
+        }*/
 	}
 
-    public IEnumerator rushToEnemy(float x) {
+   /* public IEnumerator rushToEnemy(float x) {
         stateChange(4);
         playerBattling.walk(30f);
         while (attachEnemy.Count == 0)
@@ -53,12 +52,12 @@ public class PlayerAI : MonoBehaviour {
         }
         stateChange(1);
         playerBattling.walk(0f);
-    }
+    }*/
 
     public void doState() {
         if (nowState == 0)
         {
-            playerBattling.walk(5f);
+            playerBattling.walk(5.5f);
             animator.SetBool("isWalk", true);
         }
 
@@ -69,21 +68,12 @@ public class PlayerAI : MonoBehaviour {
         }
     }
 
-    public void attackStateJudge() {
-        if (attachEnemy.Count == 0 && nowState != 4)
-        {
-            stateChange(0);
-        }
-        else if (attachEnemy.Count > 0)
-        {
-            stateChange(1);
-        }
-    }
 
     public void OnTriggerEnter2D(Collider2D col)
     {
         if (col.tag == "Enemy")
         {
+            stateChange(1);
             attachEnemy.Add(col.gameObject);
         }
     }
@@ -101,5 +91,14 @@ public class PlayerAI : MonoBehaviour {
         nowState = state;
     }
 
+    public void attackMove() {
+        // GameObject obj = new GameObject("ATKParaent");
+        //    transform.SetParent(obj.transform);
+        if (attachEnemy.Count == 0)
+            transform.position += Vector3.right * 1.5f;
+        else
+            transform.position += Vector3.right * 0.1f;
+       // StartCoroutine(move(transform.position.x + 1));
+    }
 
 }

@@ -15,14 +15,20 @@ public class DamageText : UIScript{
 
     void Update()
     {
-        tr.position += 2f * Vector3.up * Time.deltaTime;
+        //tr.position += 2f * Vector3.up * Time.deltaTime;
     }
 
     public void removeNowText() {
-        hittedObj.damageTextCount--;
+        if(hittedObj.damageTextCount >= 3)
+            hittedObj.damageTextCount=0;
     }
 
     public void setChineseFont() {
-        GetComponent<Text>().font = chineseFont;
+
+    }
+
+    public void setDamageText(string value) {
+        Text text = GetComponent<Text>();
+        text.text = value;
     }
 }

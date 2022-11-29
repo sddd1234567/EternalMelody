@@ -7,6 +7,8 @@ public class SEManager : MonoBehaviour {
     public static SEManager instance;
     public GameObject playerAttackSE;
     public GameObject skillStartSE;
+    public GameObject winningSE;
+    public GameObject defeatSE;
 
     void Awake() {
         instance = this;
@@ -22,8 +24,9 @@ public class SEManager : MonoBehaviour {
     }
 
     public IEnumerator playSE(GameObject se) {
+        yield return null;
         Instantiate(se);
-        yield return se;
+        
     }
 
     public void loadPlayerSE(PlayerBattling player) {
@@ -31,7 +34,7 @@ public class SEManager : MonoBehaviour {
     }
 
     public void playerAttack() {
-        StartCoroutine(playSE(playerAttackSE));
+       // StartCoroutine(playSE(playerAttackSE));
     }
 
     public void startSkill() {

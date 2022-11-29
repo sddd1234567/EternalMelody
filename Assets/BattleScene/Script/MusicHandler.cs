@@ -7,14 +7,17 @@ using UnityEngine.UI;
 
 public class MusicHandler : MonoBehaviour{
 
+    [SerializeField]
     #region music objects definition
     private Object music;
     public GameObject musicBox;
     private AudioSource Intro;
     private AudioSource Loop;
+    private AudioSource nowAudio;
     private musicInfo musicInfo;
     public float BPM;
-    public float Timing;
+   public float Timing;
+    public float offset;
     #endregion
 
     public bool isStart;
@@ -23,13 +26,13 @@ public class MusicHandler : MonoBehaviour{
 
     public static MusicHandler instance;
 
-    private bool isLoop;  //用來控制音樂，判斷現在是Intro還是Loop
+    public bool isLoop;  //用來控制音樂，判斷現在是Intro還是Loop
     
     public bool isTimingArrived;
 
     private  const float errorInterval=0.15f;//容錯範圍(radius)
                                             // Use this for initialization
-    private const float judgeInterval = 0.25f;
+    private const float judgeInterval = 0.2f;
 
     public int waitCount;
 
@@ -54,8 +57,6 @@ public class MusicHandler : MonoBehaviour{
         {
             rhythmControl();
             rhythmUIControl();
-            if (isJudgeInterval() && !rhythmStart)
-                uimanager.rhythmCircle.gameObject.SetActive(true);
         }
            
 
@@ -63,7 +64,10 @@ public class MusicHandler : MonoBehaviour{
     }
 
     public void rhythmUIControl() {
-        uimanager.rhythmCircle.localScale = Vector3.one * (rhythmJudge() / judgeInterval);
+        if (isJudgeInterval())
+            uimanager.shining.color = new Color(uimanager.shining.color.r, uimanager.shining.color.g, uimanager.shining.color.b, -(Mathf.Abs(nowAudio.time - Timing) / (BPM / 2f) - 1f));
+        else
+            uimanager.shining.color = new Color(uimanager.shining.color.r, uimanager.shining.color.g, uimanager.shining.color.b,0);
     }
 
     public void waitTiming(int count) {
@@ -75,8 +79,6 @@ public class MusicHandler : MonoBehaviour{
         
         if (!isTimingArrived && Intro.isPlaying && Timing <= Intro.time)
         {
-            uimanager.rhythmArrived.SetActive(true);
-            uimanager.rhythmCircle.gameObject.SetActive(false);
             AIControl();
             waitToStart();
             isTimingArrived = true;
@@ -86,13 +88,10 @@ public class MusicHandler : MonoBehaviour{
         }
         else if (!isTimingArrived && Timing <= Loop.time)
         {
-            uimanager.rhythmArrived.SetActive(true);
-            uimanager.rhythmCircle.gameObject.SetActive(false);
             AIControl();
             waitToStart();
             isTimingArrived = true;
             BattleManager.instance.timingControl();
-            
             return true;
         }
         else
@@ -153,41 +152,48 @@ public class MusicHandler : MonoBehaviour{
         Loop = musicInfo.Loop;
         BPM = musicInfo.BPM;
         Timing = musicInfo.offSet;
+        offset = musicInfo.offSet;
         Loop.loop = true;//讓LOOP循環播放
         
     }
 
     //撥放音樂
-    public void startMusic() {        
+    public void startMusic() {
+        //Debug.Log("playyyyyyyy");
         Intro.Play();
+        nowAudio = Intro;
         Loop.PlayDelayed(Intro.clip.length);//等INTRO播完在換LOOP
     }
 
     //
     public bool rhythmControl() {
-        if (!isWaveTextCreated && !isLoop && Intro.time >= (Timing - 8 * BPM))
+        if (TutorialController.instance == null)
         {
-            isWaveTextCreated = true;
-            UIManager.instance.createWaveText();
+            if (!isWaveTextCreated && !isLoop && Intro.time >= (Timing - 8 * BPM))
+            {
+                isWaveTextCreated = true;
+                UIManager.instance.createWaveText();
+            }
+
+            if (!isStart && !isLoop && Intro.time >= (Timing - 4 * BPM))
+            {
+                isStart = true;
+                UIManager.instance.startCount();
+            }
+
+            else if (!isStart && isLoop && Loop.time >= (Timing - 4 * BPM))
+            {
+                isStart = true;
+                UIManager.instance.startCount();
+            }
         }
 
-        if (!isStart && !isLoop && Intro.time >= (Timing - 4 * BPM))
-        {
-            isStart = true;
-            UIManager.instance.startCount();
-        }
-
-        else if (!isStart && isLoop && Loop.time >= (Timing - 4 * BPM)) {
-            isStart = true;
-            UIManager.instance.startCount();
-        }
-
-        if (Loop.time != 0 && Timing >= Intro.clip.length && !isLoop)//換成LOOP
+        if (Loop.time != 0 && !isLoop && !Intro.isPlaying)//換成LOOP
         {
             switchToLoop();
         }
 
-        else if (Loop.time != 0 && Timing - Loop.time > Loop.clip.length/2)//讓TIMING的值不會太大
+        else if (Loop.time != 0 && isLoop && Timing - Loop.time > Loop.clip.length/2)//讓TIMING的值不會太大
         {
             timingLoop();
         }
@@ -198,8 +204,6 @@ public class MusicHandler : MonoBehaviour{
         if (!isLoop && Intro.time >= Timing + errorInterval)//過完一次拍點了，進入下一個拍點
         {
             rhythmStart = true;
-            uimanager.rhythmArrived.SetActive(false);
-            uimanager.rhythmCircle.gameObject.SetActive(true);
             updateTiming();
             return true;
         }
@@ -207,8 +211,6 @@ public class MusicHandler : MonoBehaviour{
         else if (isLoop && Loop.time >= Timing + errorInterval)//過完一次拍點了，進入下一個拍點
         {
             rhythmStart = true;
-            uimanager.rhythmArrived.SetActive(false);
-            uimanager.rhythmCircle.gameObject.SetActive(true);
             updateTiming();
             return true;
         }
@@ -225,13 +227,18 @@ public class MusicHandler : MonoBehaviour{
     }
 
     public void timingLoop() {
+        
+        Debug.Log("TimingLoop");
         Timing -= Loop.clip.length;
     }
 
     public void switchToLoop()
     {
-        Timing -= Intro.clip.length;
+        nowAudio = Loop;
+        Timing = 0f-(Intro.clip.length - offset) % BPM;
+        Debug.Log("11111");
         isLoop = true;
+        
     }
 
     //有無打在拍點上
@@ -263,5 +270,27 @@ public class MusicHandler : MonoBehaviour{
         {
             return false;
         }
+    }
+
+    public void musicPause() {
+        Intro.Pause();
+        Loop.Pause();
+    }
+
+    public void musicResume() {
+        Intro.UnPause();
+        Loop.UnPause();
+    }
+
+    public IEnumerator musicStop() {
+        while (nowAudio.volume > 0)
+        {
+            yield return null;
+            float f = (nowAudio.volume - 0.8f * Time.deltaTime);
+            if (f < 0)
+                f = 0;
+            nowAudio.volume = f;
+        }
+        musicPause();
     }
 }

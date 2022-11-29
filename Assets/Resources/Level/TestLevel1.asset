@@ -11,14 +11,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: deeb93f9284b2014eaf9cd12009f4b4b, type: 3}
   m_Name: TestLevel1
   m_EditorClassIdentifier: 
+  levelIndex: 0
+  levelName: "\u68EE\u6797\u88E1\u7684\u5371\u6A5F"
   enemyWave1:
-  - LittlePig
-  - LittlePig
-  - LittlePig
+  - enemyName: LittlePig
+  - enemyName: LittlePig
   enemyWave2:
-  - LittlePig
-  - LittlePig
+  - enemyName: LittlePig
+  - enemyName: LittlePig
   enemyWave3:
-  - LittlePig
+  - enemyName: Spider
   musicName: Tutorial
-  backGround: {fileID: 1166729879413554, guid: 2705d36558bfc584fb25efc2fd69451a, type: 2}
+  farBackGround: {fileID: 1113510483921904, guid: 0e07990fdaf208842a82f4671264d15a,
+    type: 2}
+  middleBackGround: {fileID: 1238600082053660, guid: d5d378353e66e8849941250ce6991ff2,
+    type: 2}
+  frontBackGround:
+  - {fileID: 1761479960205736, guid: 9123e0806a87bbc4490fe29104d76c4c, type: 2}
+  - {fileID: 1956313794005594, guid: 554246bf7d05b8c4ba524f6f4658a133, type: 2}
+  - {fileID: 1682319964431422, guid: 15b9d9768401b1643818667ff7495696, type: 2}
+  aw:
+    gold: 20
+    skillChip: 20
+    temperStar: 1
+    exp: 150
+  hasStoryBefore: 1
+  hasStoryAfter: 1
+  nextScene: Chapter1-1

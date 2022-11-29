@@ -12,6 +12,8 @@ public class SpriteBattling : MonoBehaviour {
     public float PEN;
     public float damageBalance;
 
+    public GameObject attackSE;
+
     public List<Buff> buffs;
     public List<int> buffTime;
     public List<Skill> skills;
@@ -43,7 +45,7 @@ public class SpriteBattling : MonoBehaviour {
 	}
 
     public virtual float attack()
-    {
+    {        
         return ATK;
     }
 
@@ -53,7 +55,7 @@ public class SpriteBattling : MonoBehaviour {
 
     public virtual void hitted(float attack, float PEN=0, float value = 1)
     {
-        float dmg = Mathf.Round((attack - DEF * (1 - PEN)) * value);
+        float dmg = Mathf.Round((attack - DEF * (100 - PEN)/100) * value);
         nowHP -= dmg > 0 ? dmg : 1;
         damgeTextCreate((dmg > 0 ? dmg : 1).ToString());
         hpBarController.updateValue(nowHP / maxHP);
@@ -99,8 +101,7 @@ public class SpriteBattling : MonoBehaviour {
     //need animation 
     public virtual void dead()
     {
-        Destroy(hpBar.gameObject);
-        Destroy(gameObject);
+        
     }
 
     public void doAnimate(string animName) {
@@ -117,11 +118,36 @@ public class SpriteBattling : MonoBehaviour {
     public DamageText damgeTextCreate(string value) {
         damageTextCount++;
         GameObject obj = Instantiate(damageText,mainSceneCameraControl.battlingUICanvas.transform);
-        DamageText dmgScript = obj.GetComponent<DamageText>();
+        DamageText dmgScript = obj.transform.GetComponent<DamageText>();
+        if(tag == "Player")
+            dmgScript.GetComponent<Text>().color = Color.red;
         dmgScript.hittedObj = this;
-        dmgScript.setScale(Vector3.one * 0.8f);
-        dmgScript.setPosition(transform.position + (Vector3.up * 1f) + (Vector3.down * (damageTextCount-1) * 0.75f));
-        dmgScript.setText(value.ToString());
+        dmgScript.setPosition(transform.position + (Vector3.up * 1f) + (Vector3.up * (damageTextCount-1) * 0.5f) + new Vector3(Random.Range(-0.005f, 0.005f), 0,0));
+        dmgScript.setDamageText(value);
+        return dmgScript;
+    }
+
+    public DamageText missTextCreate(string value)
+    {
+        damageTextCount++;
+        GameObject obj = Instantiate(damageText, mainSceneCameraControl.battlingUICanvas.transform);
+        DamageText dmgScript = obj.transform.GetComponent<DamageText>();
+        dmgScript.GetComponent<Text>().color = Color.gray;
+        dmgScript.hittedObj = this;
+        dmgScript.setPosition(transform.position + (Vector3.up * 1f) + (Vector3.up * (damageTextCount - 1) * 0.5f) + new Vector3(Random.Range(-0.005f, 0.005f), 0, 0) + Vector3.right * 3f);
+        dmgScript.setDamageText(value);
+        return dmgScript;
+    }
+
+    public DamageText createHealthCreate(string value)
+    {
+        damageTextCount++;
+        GameObject obj = Instantiate(damageText, mainSceneCameraControl.battlingUICanvas.transform);
+        DamageText dmgScript = obj.transform.GetComponent<DamageText>();
+        dmgScript.GetComponent<Text>().color = Color.green;
+        dmgScript.hittedObj = this;
+        dmgScript.setPosition(transform.position + (Vector3.up * 1f) + (Vector3.up * (damageTextCount - 1) * 0.5f) + new Vector3(Random.Range(-0.005f, 0.005f), 0, 0));
+        dmgScript.setDamageText(value);
         return dmgScript;
     }
 
@@ -132,5 +158,10 @@ public class SpriteBattling : MonoBehaviour {
 
     public virtual Vector3 getPosition() {
         return transform.position;
+    }
+
+    public void playSE(GameObject obj)
+    {
+        Instantiate(obj);
     }
 }

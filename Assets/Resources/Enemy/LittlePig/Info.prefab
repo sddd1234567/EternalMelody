@@ -52,10 +52,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HP: 1000
-  ATK: 80
-  DEF: 20
+  ATK: 150
+  DEF: 50
   CRI: 0
-  level: 2
+  level: 0
   skills:
-  - {fileID: 11400000, guid: c2230a298c696e141b616f23a204aace, type: 2}
+  - {fileID: 0}
   attackStep: 2

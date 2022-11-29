@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 950f2c51112245642a7b1a0ce24e191d, type: 3}
+  m_Name: MoonToothSword 3
+  m_EditorClassIdentifier: 
+  LV: 3
+  HP: 450
+  ATK: 430
+  DEF: 50
+  PEN: 0
+  CRI: 25
+  levelUpCost: 100
+  buyCost: -1
+  weaponSpecies: 0
+  weaponName: "\u6708\u7259\u528D"
+  path: MoonToothSword
+  isEquiped: 0
+  description: "\u5BCC\u542B\u6708\u5149\u7CBE\u83EF\u7684\u9B54\u528D\uFF0C \u611F\u89BA\u88AB\u6253\u5230\u6703\u5F88\u75DB "

@@ -11,14 +11,22 @@ public class BattleHandler : MonoBehaviour {
     }
 
     public void spriteAttack(SpriteBattling attacker,SpriteBattling target, string targetTag) {
+        //if (targetTag == "Player")
+            //Debug.Log("enemyAtk");
         createObjectAnimate(attacker.attackEffect, attacker, target, targetTag);
     }
 
-    public void castSkill(string animName, sectionAction sectionAct, SpriteBattling attacker, List<SpriteBattling> attackerList, List<SpriteBattling> targetList, string targetTag)
+    public void castSkill(string animName, sectionAction sectionAct, SpriteBattling attacker, List<SpriteBattling> attackerList, List<SpriteBattling> targetList, string targetTag, bool isBonus)
     {
         for (int i = 0; i < sectionAct.sectionEffect.Count; i++)
         {
-            createObjectAnimate(sectionAct.sectionEffect[i], attacker, targetList[0], targetTag);
+            effect e = sectionAct.sectionEffect[i];
+            if (isBonus)
+            {
+                e.value *= e.extraBonus;
+                Debug.Log(e.value);
+            }
+                createObjectAnimate(e, attacker, targetList[0], targetTag);
         }
     }
     public Buff addBuff(int species,SpriteBattling target, float value, int buffDuration) {
@@ -33,10 +41,10 @@ public class BattleHandler : MonoBehaviour {
         float attack = attacker.attack();
         float criChance = Random.Range(0, 100);
         float balance = attacker.damageBalance;
-        int CRIDmg = criChance < attacker.CRI * 100 ? 2 : 1 ;// < 代表爆擊
+        int CRIDmg = criChance < attacker.CRI? 2 : 1 ;// < 代表爆擊
 
         value *= Random.Range(balance, 1);
-
+       // Debug.Log(attack);
         target.hitted(attack,attacker.PEN,value * CRIDmg);
     }
 
@@ -79,8 +87,10 @@ public class BattleHandler : MonoBehaviour {
 
     public void createObjectAnimate(effect sectionEffect, SpriteBattling attacker, SpriteBattling target, string targetTag)
     {
+        if (targetTag == "Enemy" && sectionEffect.species <= 2)
+            targetTag = "Player";
+
         GameObject obj = Instantiate(sectionEffect.attackerEffectObj);
-        obj.transform.position = attacker.transform.position;
         ObjectTween tween = obj.GetComponent<ObjectTween>();        
 
         tween.targetTag = targetTag;
@@ -90,6 +100,14 @@ public class BattleHandler : MonoBehaviour {
         tween.startMoving();
     }
 
+    public void health(SpriteBattling target, float value)
+    {
+        target.nowHP += value;
+        if (target.nowHP > target.maxHP)
+            target.nowHP = target.maxHP;
+        target.createHealthCreate(((int)value).ToString());
+    }
+
     public void castEffect(SpriteBattling attacker, SpriteBattling target, effect sectionEffect)
     {
         if (sectionEffect.species <= 1)
@@ -97,9 +115,19 @@ public class BattleHandler : MonoBehaviour {
             addBuff(sectionEffect.species, target, sectionEffect.value, sectionEffect.buffDuration);
         }
 
+        else if (sectionEffect.species == 2)
+        {
+            float a = target.maxHP * sectionEffect.value;
+            health(target, a);
+        }
+
         else if (sectionEffect.species == 3)
         {
-            doDamage(attacker,target,sectionEffect.value);
+            if (target.tag == "Enemy")
+            {
+                AIManager.instance.enemyKnockBack(target as EnemyBattling);
+            }
+            doDamage(attacker, target, sectionEffect.value);
         }
 
     }

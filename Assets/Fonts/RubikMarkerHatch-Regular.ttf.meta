@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 49720d139e7eb084bb5ee4a10790bea1
+timeCreated: 1668945567
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Rubik Marker Hatch
+  fontNames:
+  - Rubik Marker Hatch
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

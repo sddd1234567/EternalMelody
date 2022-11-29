@@ -63,7 +63,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 6
 --- !u!61 &61088171968427772
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -75,9 +75,9 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_Offset: {x: -0.04880941, y: -0.21456897}
+  m_Offset: {x: 0.07805419, y: -0.21456897}
   serializedVersion: 2
-  m_Size: {x: 2.9223893, y: 1.9251838}
+  m_Size: {x: 3.1761165, y: 1.9251838}
 --- !u!95 &95909065007633268
 Animator:
   serializedVersion: 3
@@ -113,10 +113,11 @@ MonoBehaviour:
   DEF: 10
   PEN: 0
   damageBalance: 0.7
+  attackSE: {fileID: 1716909072588738, guid: d954068ea9712ae42978bf9da4c3300f, type: 2}
   buffs: []
   buffTime: 
   skills:
-  - {fileID: 11400000, guid: c2230a298c696e141b616f23a204aace, type: 2}
+  - {fileID: 0}
   skillTime: 
   hpBar: {fileID: 114628538615426714, guid: 80c39091b564b9c4999c83c247207c0c, type: 2}
   hpBarController: {fileID: 0}
@@ -124,6 +125,7 @@ MonoBehaviour:
     species: 3
     value: 1
     buffDuration: 0
+    extraBonus: 0
     attackerEffectObj: {fileID: 1920166053989176, guid: 7deea37414615bc42acbd4ab3ce4ae48,
       type: 2}
     targetEffectObj: {fileID: 0}
@@ -133,7 +135,7 @@ MonoBehaviour:
   nowDestination: {x: 0, y: 0, z: 0}
   damageText: {fileID: 0}
   damageTextCount: 0
-  autoAttackStep: 8
+  autoAttackStep: 2
   skillStep: 2
   state: 0
   nowSkill: {fileID: 0}
@@ -141,6 +143,12 @@ MonoBehaviour:
   nowSkillSteps: 0
   attackSteps: 1
   nowAttackStep: 0
+  isAttachPlayer: 0
+  targetPos: {x: 0, y: 0, z: 0}
+  isSmoothMoving: 0
+  gold: 10
+  skillChip: 10
+  exp: 100
 --- !u!212 &212250575172323278
 SpriteRenderer:
   m_ObjectHideFlags: 1

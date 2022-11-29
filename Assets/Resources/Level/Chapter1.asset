@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: deeb93f9284b2014eaf9cd12009f4b4b, type: 3}
+  m_Name: Chapter1
+  m_EditorClassIdentifier: 
+  levelIndex: 1
+  levelName: "\u8FD4\u56DE\u6751\u838A"
+  enemyWave1:
+  - enemyName: Spider
+    gold: 15
+    skillChip: 15
+  - enemyName: Spider
+    gold: 15
+    skillChip: 15
+  enemyWave2:
+  - enemyName: Spider
+    gold: 15
+    skillChip: 15
+  - enemyName: Spider
+    gold: 15
+    skillChip: 5
+  enemyWave3:
+  - enemyName: Spider
+    gold: 15
+    skillChip: 15
+  - enemyName: Spider
+    gold: 15
+    skillChip: 15
+  - enemyName: Spider
+    gold: 15
+    skillChip: 15
+  musicName: Ariadne-Battle
+  farBackGround: {fileID: 1113510483921904, guid: 0e07990fdaf208842a82f4671264d15a,
+    type: 2}
+  middleBackGround: {fileID: 1238600082053660, guid: d5d378353e66e8849941250ce6991ff2,
+    type: 2}
+  frontBackGround:
+  - {fileID: 1761479960205736, guid: 9123e0806a87bbc4490fe29104d76c4c, type: 2}
+  - {fileID: 1956313794005594, guid: 554246bf7d05b8c4ba524f6f4658a133, type: 2}
+  - {fileID: 1682319964431422, guid: 15b9d9768401b1643818667ff7495696, type: 2}
+  aw:
+    gold: 30
+    skillChip: 30
+    temperStar: 1
+    exp: 300
+  hasStoryBefore: 1
+  hasStoryAfter: 1
+  nextScene: Chapter2-1
