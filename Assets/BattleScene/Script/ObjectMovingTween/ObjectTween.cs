@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectTween : MonoBehaviour {
-    public Rigidbody2D rig;
+public class ObjectTween : MonoBehaviour {    
     public effect sectionEffect;
     public SpriteBattling attacker;
     public SpriteBattling target;

@@ -15,48 +15,24 @@ public class AIManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        isAttackFinish();
     }
 
     public void canHit()
     {
-        for (int i = 0; i < enemies.Count; ++i)
-        {
-            EnemyBattling e = enemies[i] as EnemyBattling;
-            float step = e.autoAttackStep;
-            float range = step / 10f;
-            float rndstep = 100/Random.Range(step - range, step + range);
-            float rndNum = Random.Range(0, 100);
-            if (rndNum <= rndstep)//發動普攻
+            for (int i = 0; i < enemies.Count; ++i)
             {
-                if (e.state != 2 && e.state != 5)//not idle
-                {
-                    return;
-                }
-                else
-                {
-                    if (canSkill(e))
-                        continue;
+                EnemyBattling e = enemies[i] as EnemyBattling;
 
-                    e.animator.SetBool("isATK", true);
-                    e.changeState(1);
-                }
+                e.canHit();
             }
-        }        
     }
 
     public void nowStepChange() {
         for (int i = 0; i < enemies.Count; ++i)
         {
             EnemyBattling e = enemies[i] as EnemyBattling;
-            if (e.state == 1)
-            {
-                e.nowAttackStep++;
-            }
-            else if (e.state == 4)
-            {
-                e.nowSkillSteps++;
-            }
+            e.stateChange();
         }
     }
 
@@ -69,8 +45,7 @@ public class AIManager : MonoBehaviour {
                 if (e.nowAttackStep == e.attackSteps)
                 {
                     BattleHandler.instance.spriteAttack(enemies[i], players[0], "Player");
-                    e.nowAttackStep = 0;
-                    e.changeState(2);
+                    e.attackFinish();
                 }
             }
         }
@@ -82,31 +57,14 @@ public class AIManager : MonoBehaviour {
             EnemyBattling e = enemies[i] as EnemyBattling;
             if (e.state == 4)
             {
-                BattleHandler.instance.castSkill("Skill1", e.nowSkill.sectionAction[e.nowSkillSteps], e, enemies, players, "Player");
+                BattleHandler.instance.castSkill("Skill1", e.nowSkill.sectionAction[e.nowSkillSteps], e, enemies, players, "Player", false);
 
                 if (e.activeSkillSteps == e.nowSkillSteps)
                 {
-                    e.nowAttackStep = 0;
-                    e.changeState(0);
+                    e.skillFinish();
                 }
             }
         }
-    }
-
-    public bool canSkill(EnemyBattling e)
-    {
-        float step = e.skillStep;
-        float range = step / 10f;
-        float rndstep = 100/Random.Range(step - range, step + range);
-        float rndNum = Random.Range(0, 6);
-        if(rndNum>=rndstep)
-        {
-            e.changeState(4);
-            e.nowSkill = e.skills[0];
-            e.animator.SetBool("Skill1", true);
-            return true;
-        }
-        return false;
     }
 
     public void loadSprites(List<SpriteBattling> enes,List<SpriteBattling> plys)
@@ -114,5 +72,19 @@ public class AIManager : MonoBehaviour {
         enemies = enes;
         players = plys;
     }
+
+    public void enemyKnockBack(EnemyBattling enemy) {
+        if (enemy.state != 1 && enemy.state != 5)
+        {
+            StopCoroutine(enemy.knockBackComplete());
+            enemy.changeState(5);
+            enemy.animator.SetBool("KnockBack", true);
+            enemy.targetPos = enemy.transform.position + Vector3.right * 1.2f;
+            //transform.position = targetPos;
+            enemy.isSmoothMoving = true;
+            enemy.changeState(5);
+        }
+    }
+
 
 }

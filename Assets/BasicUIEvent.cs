@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class BasicUIEvent : MonoBehaviour {
 
-    public void exitScene(int index) {
-        SceneManager.UnloadSceneAsync(index);
+    public void exitScene(string sceneName) {
+        SceneManager.UnloadSceneAsync(sceneName);
         //SceneManager.UnloadSceneAsync(SceneManager.sceneCountInBuildSettings);
     }
 }

@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f6a736f322ea64438dcb9b579eb4eaf, type: 3}
+  m_Name: BigCut 3
+  m_EditorClassIdentifier: 
+  skillName: "\u97F3\u5F8B\u2027\u5D29\u65AC"
+  sectionAction:
+  - gesture: 5
+    sectionAnimPath: 
+    sectionEffect:
+    - species: 10
+      value: 0
+      buffDuration: 0
+      extraBonus: 0
+      attackerEffectObj: {fileID: 1920166053989176, guid: 7deea37414615bc42acbd4ab3ce4ae48,
+        type: 2}
+      targetEffectObj: {fileID: 0}
+      isAOE: 0
+  - gesture: 4
+    sectionAnimPath: 
+    sectionEffect:
+    - species: 3
+      value: 4.3
+      buffDuration: 10
+      extraBonus: 1.3
+      attackerEffectObj: {fileID: 1549684625596654, guid: 31fa04448bf21bd44b8442acda62e2c9,
+        type: 2}
+      targetEffectObj: {fileID: 0}
+      isAOE: 0
+  coolDown: 5
+  weaponSpecies: 0
+  combo: 10
+  skillPath: BigCut
+  totalDes: "\u6558\u8FF0\uFF1A\u4F7F\u7528\u97F3\u5F8B\u4E4B\u529B\u904B\u528D\uFF0C\u63EE\u51FA\u81F4\u547D\u7684\u528D\u64CA\u3002
+    \u6307\u4EE4\uFF1A\u4E0A\u6ED1/\u53F3\u6ED1 \u8AAA\u660E\uFF1A\u5C0D1\u540D\u6575\u4EBA\u4EE5430%\u50B7\u5BB3\u653B\u64CA1\u6B21
+    (\u89F8\u767Cbonus\u9020\u6210\u984D\u591630%\u50B7\u5BB3) "
+  levelUpCost: 100
+  LV: 3
+  isEquiped: 0

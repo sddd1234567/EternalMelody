@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FadeOut : MonoBehaviour {
 
+
     void destroy() {
         BattleManager.instance.gameStart();
         Destroy(gameObject);

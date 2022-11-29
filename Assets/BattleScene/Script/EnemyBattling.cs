@@ -26,6 +26,10 @@ public class EnemyBattling : SpriteBattling {
     public Vector3 targetPos;
 
     public bool isSmoothMoving;
+
+    public int gold;
+    public int skillChip;
+    public int exp;
     
 
     void Start () {
@@ -41,9 +45,122 @@ public class EnemyBattling : SpriteBattling {
 	
 	// Update is called once per frame
 	void Update () {
-        attackStateJudge();
         doState();
+        stateJudge();
+    }
+
+    void FixedUpdate()
+    {
+        
         smoothlyMove();
+    }
+
+
+
+
+
+    public override void loadInfo(Sprite sp)//進入戰鬥前，先LOAD
+    {
+        base.loadInfo(sp);
+        Enemy e = sp as Enemy;
+        skills = e.skills;
+        attackSteps = e.attackStep;
+        loadAnim();
+    }
+
+    public override float attack()
+    {
+        if (attackSE != null)
+            playSE(attackSE);
+        return base.attack();
+    }
+
+    public void loadAnimator() {
+        animator = GetComponent<Animator>();
+    }
+
+    public override void hitted(float attack, float PEN = 0, float value = 1)
+    {
+        base.hitted(attack, PEN, value);
+        knockBack();
+    }
+
+    public void knockBack() {
+        if (state != 1 && state != 5)
+        {
+            StopCoroutine(knockBackComplete());
+            changeState(5);
+            animator.SetBool("KnockBack", true);
+            targetPos = transform.position + Vector3.right * 1.2f;
+            //transform.position = targetPos;
+            isSmoothMoving = true;
+            changeState(5);
+        }
+    }
+
+    public void loadAnim() {
+
+    }
+
+    public void changeState(int st)
+    {
+       // if (state == 1)
+          //  Debug.Log("atkcomplete");
+        state = st;
+    }
+
+    public override void atkComplete()
+    {
+        base.atkComplete();
+        animator.SetBool("isATK", false);
+    }
+
+    public void stopAnim(string animName) {
+        animator.SetBool(animName, false);
+    }
+
+
+    public void smoothlyMove() {
+        if (targetPos == transform.position || !isSmoothMoving || state == 1)
+        {
+            isSmoothMoving = false;
+            return;
+        }
+            
+         transform.position = Vector3.Lerp(transform.position, targetPos, 5f * Time.deltaTime);
+       // transform.position = new Vector3(transform.position.x + 5f * Time.deltaTime, transform.position.y, transform.position.z);
+        if (targetPos.x - transform.position.x <= 0.5f)
+        {
+            isSmoothMoving = false;
+            transform.position = targetPos;
+            StartCoroutine(knockBackComplete());
+        }
+    }
+
+    public IEnumerator knockBackComplete() {
+         yield return new WaitForSeconds(0.5f);
+        if(state == 5)
+            changeState(2);
+    }
+
+    public void stateJudge()
+    {
+        if (!isAttachPlayer && state == 2)
+        {
+            changeState(0);
+        }
+        else if (isAttachPlayer && state != 1 && state != 5)
+        {
+            changeState(2);
+        }
+        if (state == 5)
+        {
+            animator.SetBool("KnockBack", true);
+        }
+        else
+        {
+            animator.SetBool("KnockBack", false);
+        }
     }
 
     public void doState()
@@ -65,74 +182,9 @@ public class EnemyBattling : SpriteBattling {
         }
     }
 
-    public void attackStateJudge()
-    {
-        if (isAttachPlayer == false && state != 5 && state != 1)
-        {
-            changeState(0);
-        }
-        else if (state != 1 && state != 5)
-        {
-            changeState(2);
-        }
-    }
-
-    public override void loadInfo(Sprite sp)//進入戰鬥前，先LOAD
-    {
-        base.loadInfo(sp);
-        Enemy e = sp as Enemy;
-        skills = e.skills;
-        attackSteps = e.attackStep;
-        loadAnim();
-    }
-
-    public void loadAnimator() {
-        animator = GetComponent<Animator>();
-    }
-
-    public override void hitted(float attack, float PEN = 0, float value = 1)
-    {
-        base.hitted(attack, PEN, value);
-        if (state != 1)
-        {
-            targetPos = transform.position + Vector3.right * 3;
-            isSmoothMoving = true;
-            changeState(5);
-        }
-    }
-
-    public void loadAnim() {
-
-    }
-
-    public void changeState(int st)
-    {
-        state = st;
-    }
-
-    public override void atkComplete()
-    {
-        base.atkComplete();
-        animator.SetBool("isATK", false);
-    }
-
-
-    public void smoothlyMove() {
-        if (targetPos == transform.position || !isSmoothMoving || state == 1)
-            return;
-        transform.position = Vector3.Lerp(transform.position, targetPos, 5f * Time.deltaTime);
-        if (Vector3.Distance(transform.position, targetPos) <= 0.5f)
-        {
-            isSmoothMoving = false;
-            changeState(2);
-            transform.position = targetPos;
-        }
-            
-    }
-
     public void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.tag == "Player")
+        if (col.gameObject.tag == "Player")
         {
             isAttachPlayer = true;
         }
@@ -140,10 +192,91 @@ public class EnemyBattling : SpriteBattling {
 
     public void OnTriggerExit2D(Collider2D col)
     {
-        if (col.tag == "Player")
+        if (col.gameObject.tag == "Player")
         {
             isAttachPlayer = false;
         }
     }
 
+    /*  public void OnTriggerEnter2D(Collider2D col)
+      {
+          if (col.tag == "Player")
+          {
+              isAttachPlayer = true;
+          }
+      }
+
+      public void OnTriggerExit2D(Collider2D col)
+      {
+          if (col.tag == "Player")
+          {
+              isAttachPlayer = false;
+          }
+      }*/
+
+    public void stateChange() {
+        if (state == 1)
+        {
+            nowAttackStep++;
+        }
+        else if (state == 4)
+        {
+            nowSkillSteps++;
+        }
+    }
+
+    public void canHit() {
+
+        float step = autoAttackStep;
+        float range = step / 10f;
+        float rndstep = 100 / UnityEngine.Random.Range(step - range, step + range);
+        float rndNum = UnityEngine.Random.Range(0, 100);
+
+        if (rndNum <= rndstep)//發動普攻
+        {
+            if (state != 2 && state != 5)//not idle
+            {
+                return;
+            }
+            else
+            {
+                if (canSkill())
+                    return;
+
+                animator.SetBool("isATK", true);
+                changeState(1);
+            }
+        }
+        
+    }
+
+    public bool canSkill() {
+        float step = skillStep;
+        float range = step / 10f;
+        float rndstep = 100 / UnityEngine.Random.Range(step - range, step + range);
+        float rndNum = UnityEngine.Random.Range(0, 6);
+        if (rndNum >= rndstep)
+        {
+            changeState(4);
+            nowSkill = skills[0];
+            animator.SetBool("Skill1", true);
+            return true;
+        }
+        return false;
+    }
+
+    public void attackFinish() {
+        nowAttackStep = 0;
+        changeState(2);
+    }
+
+    public void skillFinish() {
+        nowAttackStep = 0;
+        //  e.changeState(0);
+    }
+
+    public override void dead() {
+        Destroy(hpBar.gameObject);
+        Destroy(gameObject);
+    }
 }

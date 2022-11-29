@@ -39,7 +39,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1797077275197904}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.83, y: -0.1, z: 0}
+  m_LocalPosition: {x: 0, y: -0.1, z: -0.1}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
@@ -76,9 +76,9 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_Offset: {x: 2.402687, y: -0.047187805}
+  m_Offset: {x: 1.3790148, y: -0.21739839}
   serializedVersion: 2
-  m_Size: {x: 2.9683514, y: 3.8674908}
+  m_Size: {x: 3.5812209, y: 4.207912}
 --- !u!95 &95696444953764626
 Animator:
   serializedVersion: 3
@@ -114,6 +114,7 @@ MonoBehaviour:
   DEF: 0
   PEN: 0
   damageBalance: 0
+  attackSE: {fileID: 1337003773267132, guid: 02f49178c7d28a549a14c3947e391186, type: 2}
   buffs: []
   buffTime: 
   skills: []
@@ -124,6 +125,7 @@ MonoBehaviour:
     species: 3
     value: 1
     buffDuration: 0
+    extraBonus: 0
     attackerEffectObj: {fileID: 1920166053989176, guid: 7deea37414615bc42acbd4ab3ce4ae48,
       type: 2}
     targetEffectObj: {fileID: 0}
@@ -138,10 +140,11 @@ MonoBehaviour:
     species: 0
     numerical: 0
     duration: 0
-  attackSE: {fileID: 1337003773267132, guid: 02f49178c7d28a549a14c3947e391186, type: 2}
+  nowPlayerAttackState: 0
   isBlock: 0
   blockSE: {fileID: 1194864542854798, guid: 227920e4267c7ab4580ad4b238d153c7, type: 2}
   blockSuccess: 0
+  hittedSE: {fileID: 1716909072588738, guid: d954068ea9712ae42978bf9da4c3300f, type: 2}
 --- !u!114 &114482337913510294
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -157,6 +160,7 @@ MonoBehaviour:
   attachEnemy: []
   nowState: 0
   canAttack: 0
+  lastState: -1
   animator: {fileID: 0}
 --- !u!212 &212847104306357416
 SpriteRenderer:
@@ -189,7 +193,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: aeefb9f67bfcd9145a4309ebb3f6d7c4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1134f89159318e848968d08cd7e23495, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

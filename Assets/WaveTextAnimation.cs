@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
+using UnityEngine.UI;
 
 public class WaveTextAnimation : UIScript {
     public void setText(int waveNum) {
-        GetComponent<TextMeshProUGUI>().text += waveNum;
+        GetComponent<Text>().text += waveNum;
     }
 }

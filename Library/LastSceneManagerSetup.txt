@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/BattleScene/Scene/BattleScene.unity
+- path: Assets/MainScene/Scene/TapToStart.unity
   isLoaded: 1
   isActive: 1

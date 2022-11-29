@@ -12,7 +12,7 @@ public class mainSceneCameraControl : MonoBehaviour {
     // Use this for initialization
 
     void Awake() {
-        screenSpaceCanvasScale();
+       // screenSpaceCanvasScale();
         cameraScale();
         battlingUICanvas = gameObject;
     }
@@ -20,8 +20,10 @@ public class mainSceneCameraControl : MonoBehaviour {
     
 
     public void cameraScale() {
-        float targetAspect = 16.0f / 9.0f;
-        
+        //float targetAspect = 2260f / 1080f;
+        float targetAspect = (float)Screen.width / (float)Screen.height;
+
+
         float nowAspect = (float)Screen.width / (float)Screen.height;
         
         float scaleHeight = nowAspect / targetAspect;

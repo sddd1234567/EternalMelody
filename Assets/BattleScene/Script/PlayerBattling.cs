@@ -6,24 +6,26 @@ public class PlayerBattling : SpriteBattling {
     // Use this for initialization
     public float blockRatio;
     public Buff comboBuff;
-    public GameObject attackSE;
+   // public GameObject attackSE;
+
+    public int nowPlayerAttackState;
 
     public bool isBlock;
 
     public GameObject blockSE;
 
     public bool blockSuccess;
-
-    public int nowState;    // 0 = walk  1 = readyToAttack  2 = attacking    3 = cant control  4 = rushing
+    public GameObject hittedSE;
 
     void Awake()
     {
+        nowPlayerAttackState = 0;
         animator = GetComponent<Animator>();
         damageText = Resources.Load("UI/DamageText") as GameObject;
         damageBalance = 0.9f;
     }
 
-    void Start() {
+    void Start() {        
         buffs = new List<Buff>();
         buffTime = new List<int>();
         skillTime = new int[3];
@@ -57,32 +59,48 @@ public class PlayerBattling : SpriteBattling {
         CRI = ply.CRI;
         PEN = ply.PEN;
         skills = ply.skills;
-        loadAnim();
+        loadAnim(ply);
     }
 
     public override float attack()
     {
+        //playSE(attackSE);
         return base.attack();
     }    
 
-    public void loadAnim() {
-        animator = GetComponent<Animator>();
+    public void loadAnim(Player ply) {
+        //Debug.Log("override");
         AnimatorOverrideController animOverride = new AnimatorOverrideController();
         animOverride.runtimeAnimatorController = animator.runtimeAnimatorController;
-        animOverride["attack"] = Resources.Load("attack") as AnimationClip;
+        animOverride["Attack"] = Resources.Load("Weapon/" + ply.weapon.path + "/Attack") as AnimationClip;
+        animOverride["Attack2"] = Resources.Load("Weapon/" + ply.weapon.path + "/Attack2") as AnimationClip;
+        animOverride["Attack3"] = Resources.Load("Weapon/" + ply.weapon.path + "/Attack3") as AnimationClip;
+        animOverride["Attack4"] = Resources.Load("Weapon/" + ply.weapon.path + "/Attack4") as AnimationClip;
+        animOverride["Walk"] = Resources.Load("Weapon/" + ply.weapon.path + "/Walk") as AnimationClip;
+        animOverride["Idle"] = Resources.Load("Weapon/" + ply.weapon.path + "/Idle") as AnimationClip;
+        for (int i = 0; i < skills.Count; i++)
+        {
+            animOverride["Skill" + (i+1) + "_1"] = Resources.Load("Skill/" + skills[i].skillPath + "/AnimationClip/Skill1") as AnimationClip;
+            animOverride["Skill" + (i+1) + "_2"] = Resources.Load("Skill/" + skills[i].skillPath + "/AnimationClip/Skill2") as AnimationClip;
+        }
         animator.runtimeAnimatorController = animOverride;
     }
+    
 
     public override void hitted(float attack, float PEN = 0, float value = 1)
     {
-            base.hitted(attack, PEN, value);
+        base.hitted(attack, PEN, value);
+        playSE(hittedSE);
     }
 
     public override void atkComplete()
     {
         base.atkComplete();
-        animator.SetBool("isATK", false);
+        nowPlayerAttackState = 0;
+        animator.SetBool("isATK1", false);
         animator.SetBool("isATK2", false);
+        animator.SetBool("isATK3", false);
+        animator.SetBool("isATK4", false);
     }
 
     public void move(float value) {
@@ -96,5 +114,18 @@ public class PlayerBattling : SpriteBattling {
 
     public void stopAnim(string animateName) {
         animator.SetBool(animateName, false);
+    }
+
+    public void stopSkillAnim() {
+        animator.SetBool("Skill1_1", false);
+        animator.SetBool("Skill1_2", false);
+        animator.SetBool("Skill2_1", false);
+        animator.SetBool("Skill2_2", false);
+    }
+
+    public override void dead()
+    {
+        base.dead();
+        gameObject.SetActive(false);
     }
 }

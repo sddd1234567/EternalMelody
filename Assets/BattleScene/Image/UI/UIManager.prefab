@@ -57,5 +57,31 @@ MonoBehaviour:
   waveClear: {fileID: 0}
   comboText: {fileID: 0}
   combo: {fileID: 0}
-  gesture_Point: {fileID: 0}
-  gesture_Right: {fileID: 0}
+  gesture_Point: {fileID: 1454179737014560, guid: f0ed1054520782845b6f9636d3244fd0,
+    type: 2}
+  gesture_Right: {fileID: 1454179737014560, guid: 42ae4fe9ed65e8f42a877db170ad0f25,
+    type: 2}
+  gesture_Left: {fileID: 0}
+  gesture_Up: {fileID: 0}
+  gesture_Down: {fileID: 0}
+  promptArea: {fileID: 0}
+  nowGesture: 0
+  nowSkill: {fileID: 0}
+  shine: {fileID: 0}
+  nowPromptObj: []
+  pauseUI: {fileID: 1996888721553986, guid: 5aa1c6b3160e55f4faa185d0c11b901e, type: 2}
+  shining: {fileID: 0}
+  lastCombo: 0
+  comboAnim: {fileID: 0}
+  coolDownUI:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  coolDownText:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  skillIcons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}

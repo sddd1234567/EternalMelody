@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: deeb93f9284b2014eaf9cd12009f4b4b, type: 3}
+  m_Name: Chapter2
+  m_EditorClassIdentifier: 
+  levelIndex: 2
+  levelName: "\u7A81\u7834\u91CD\u570D"
+  enemyWave1:
+  - enemyName: Spider
+  - enemyName: Spider
+  - enemyName: Spider
+  enemyWave2:
+  - enemyName: Spider
+  - enemyName: Spider
+  - enemyName: Spider
+  enemyWave3:
+  - enemyName: BigSpider
+  musicName: Battle-rapier
+  farBackGround: {fileID: 1564388715495124, guid: 2915788338c721d4b88faa859ceb6384,
+    type: 2}
+  middleBackGround: {fileID: 1357424228154306, guid: 65ea56a52e6a0e64f8abef3b91511cc3,
+    type: 2}
+  frontBackGround:
+  - {fileID: 1562217295034270, guid: 2b9fde3a5796c0e40bb148dd9fa6ea0a, type: 2}
+  aw:
+    gold: 60
+    skillChip: 60
+    temperStar: 1
+    exp: 600
+  hasStoryBefore: 0
+  hasStoryAfter: 1
+  nextScene: Chapter3-1
